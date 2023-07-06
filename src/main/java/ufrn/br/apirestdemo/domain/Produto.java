@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -43,6 +44,7 @@ public class Produto extends AbstractEntity {
     public static class DtoResponse extends RepresentationModel<DtoResponse> {
         String nome;
         String preco;
+        Long id;
         public static DtoResponse convertToDto(Produto p, ModelMapper mapper){
             return mapper.map(p, DtoResponse.class);
         }

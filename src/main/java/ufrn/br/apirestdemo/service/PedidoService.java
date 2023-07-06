@@ -21,4 +21,5 @@ public class PedidoService extends GenericService<Pedido, PedidoRepository> {
     public PedidoService(PedidoRepository repository) {
         super(repository);
     }
+
 }

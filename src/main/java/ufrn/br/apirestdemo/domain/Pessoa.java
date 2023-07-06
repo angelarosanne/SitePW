@@ -27,6 +27,8 @@ public class Pessoa  extends AbstractEntity{
     String nome;
     Integer idade;
     Boolean admin = false;
+    String login;
+    String senha;
 
 
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

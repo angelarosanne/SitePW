@@ -8,7 +8,7 @@ import ufrn.br.apirestdemo.repository.PessoaRepository;
 
 
 @Service
-public class PessoaService extends GenericService<Pessoa, PessoaRepository> {
+public class PessoaService extends GenericService<Pessoa, PessoaRepository>  {
 
     public PessoaService(PessoaRepository repository) {
         super(repository);

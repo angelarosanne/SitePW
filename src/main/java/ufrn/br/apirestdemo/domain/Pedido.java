@@ -37,6 +37,7 @@ public class Pedido extends AbstractEntity {
 			inverseJoinColumns = @JoinColumn(name = "produto_id")
 	)
 	List<Produto> produtos;
+    List<Long> produto_id;
 
     @Data
     public static class DtoRequest{
@@ -47,7 +48,7 @@ public class Pedido extends AbstractEntity {
         Pessoa pessoa;
 
         @NotBlank(message = "Obrigatório ter produtos")
-        List<Produto> produtos;
+         List<Long> produto_id;
 
         public static Pedido convertToEntity(DtoRequest dto, ModelMapper mapper){
             return mapper.map(dto, Pedido.class);

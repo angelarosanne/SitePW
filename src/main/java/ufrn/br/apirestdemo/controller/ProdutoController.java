@@ -16,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/produtos")
+@CrossOrigin(origins = "http://localhost:3000", exposedHeaders = "X-Total-Count")
 public class ProdutoController {
 
     ProdutoService service;
