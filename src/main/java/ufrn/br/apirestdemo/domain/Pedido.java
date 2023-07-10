@@ -30,14 +30,14 @@ public class Pedido extends AbstractEntity {
 	@JoinColumn(name = "pessoa_id")
 	Pessoa pessoa;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "pedido_produto",
 			joinColumns = @JoinColumn(name = "pedido_id", referencedColumnName = "id"),
 			inverseJoinColumns = @JoinColumn(name = "produto_id")
 	)
 	List<Produto> produtos;
-    List<Long> produto_id;
+    //List<Long> produto_id;
 
     @Data
     public static class DtoRequest{

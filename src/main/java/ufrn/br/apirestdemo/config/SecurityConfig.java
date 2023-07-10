@@ -30,6 +30,21 @@ public class SecurityConfig {
         this.rsaKeys = rsaKeys;
     }
 
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            "/v3/api-docs/**",
+            "/api/public/**",
+            "/api/public/authenticate",
+            "/actuator/*",
+            "/swagger-ui/**",
+            "/token"
+    };
+
     @Bean
     public InMemoryUserDetailsManager users() {
         return new InMemoryUserDetailsManager(
@@ -45,8 +60,11 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(authorize -> authorize
-                .anyRequest().authenticated()
+            .authorizeHttpRequests(authorize -> {
+                authorize.requestMatchers(AUTH_WHITELIST).permitAll();
+                authorize.anyRequest().authenticated();
+        }
+
             )
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -45,6 +45,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     }
 
 
+    /*
     @ExceptionHandler({NullPointerException.class})
     public ResponseEntity<Object> handleNullPointerException(
             NullPointerException ex, WebRequest request) {
@@ -54,5 +55,5 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         body.put("message", "Erro qualquer");
 
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    }*/
 }

@@ -8,9 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 import ufrn.br.apirestdemo.domain.Pedido;
 import ufrn.br.apirestdemo.domain.Pessoa;
+import ufrn.br.apirestdemo.domain.Produto;
+import ufrn.br.apirestdemo.repository.ProdutoRepository;
 import ufrn.br.apirestdemo.service.PedidoService;
 
 import jakarta.validation.Valid;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,10 +24,14 @@ public class PedidoController {
     PedidoService service;
     ModelMapper mapper;
 
+    ProdutoRepository produtoRepository;
 
-    public PedidoController(PedidoService service, ModelMapper mapper) {
+
+
+    public PedidoController(PedidoService service, ModelMapper mapper, ProdutoRepository produtoRepository) {
         this.service = service;
         this.mapper = mapper;
+        this.produtoRepository = produtoRepository;
     }
 
 
@@ -42,9 +50,17 @@ public class PedidoController {
     @ResponseStatus(HttpStatus.CREATED)
     public Pedido.DtoResponse create(@RequestBody Pedido.DtoRequest p){
 
-        Pedido pedido = (Pedido) this.service.create(Pedido.DtoRequest.convertToEntity(p, mapper));
+        Pedido pedido = Pedido.DtoRequest.convertToEntity(p, mapper);
 
-        Pedido.DtoResponse response = Pedido.DtoResponse.convertToDto(pedido, mapper);
+        List<Produto> produtos = new ArrayList<>();//produtoRepository.findAll();
+
+        for (Long i : p.getProduto_id()){
+            produtos.add(produtoRepository.findById(i).get());
+        }
+
+        pedido.setProdutos(produtos);
+
+        Pedido.DtoResponse response = Pedido.DtoResponse.convertToDto((Pedido) this.service.create(pedido), mapper);
         response.generateLinks(pedido.getId());
 
         return response;
