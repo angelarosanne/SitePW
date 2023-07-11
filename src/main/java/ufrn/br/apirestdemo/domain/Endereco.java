@@ -27,6 +27,10 @@ public class Endereco extends AbstractEntity {
     String bairro;
     String cidade;
 
+     @Override
+    public void partialUpdate(AbstractEntity e) {
+
+    }
 
     @Data
     public static class DtoRequest{

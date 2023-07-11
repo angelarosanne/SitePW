@@ -36,14 +36,8 @@ public class PedidoController {
 
 
     @GetMapping
-    public List<Pedido.DtoResponse> list(){
-
-        return this.service.list().stream().map(
-                elementoAtual -> {
-                    Pedido.DtoResponse response = Pedido.DtoResponse.convertToDto(elementoAtual, mapper);
-                    response.generateLinks(elementoAtual.getId());
-                    return response;
-                }).toList();
+        public List<Pedido.DtoResponse> list() {
+        return service.listPedidos();
     }
 
     @PostMapping

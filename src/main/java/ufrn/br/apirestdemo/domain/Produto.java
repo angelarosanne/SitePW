@@ -40,6 +40,14 @@ public class Produto extends AbstractEntity {
         }
     }
 
+    @Override
+    public void partialUpdate(AbstractEntity e) {
+        if (e instanceof Produto produto){
+            this.nome = produto.nome;
+            this.preco = produto.preco;
+        }
+    }
+
     @Data
     public static class DtoResponse extends RepresentationModel<DtoResponse> {
         String nome;

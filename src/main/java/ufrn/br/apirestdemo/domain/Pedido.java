@@ -39,6 +39,15 @@ public class Pedido extends AbstractEntity {
 	List<Produto> produtos;
     //List<Long> produto_id;
 
+    @Override
+    public void partialUpdate(AbstractEntity e) {
+        if (e instanceof Pedido pedido){
+            this.dataPedido = pedido.dataPedido;
+            this.pessoa = pedido.pessoa;
+            this.produtos = pedido.produtos;
+        }
+    }
+
     @Data
     public static class DtoRequest{
         @NotBlank(message = "Usuário com dataPedido em branco")

@@ -9,4 +9,3 @@ import java.security.interfaces.RSAPublicKey;
 public record RsaKeyProperties(RSAPublicKey publicKey, RSAPrivateKey privateKey) {
 
 }
-

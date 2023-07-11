@@ -3,6 +3,7 @@ package ufrn.br.apirestdemo.service;
 import jakarta.persistence.EntityNotFoundException;
 import ufrn.br.apirestdemo.domain.AbstractEntity;
 import ufrn.br.apirestdemo.repository.IGenericRepository;
+import jakarta.persistence.Entity;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,14 +33,19 @@ public abstract class GenericService<E extends AbstractEntity, R extends IGeneri
     }
 
     @Override
-    public E update(E e, Long id) {
-        Optional<E> pessoaBanco = repository.findById(id);
-        if (pessoaBanco.isPresent()){
+    public E update(E updatedEntity, Long id) {
+
+        Optional<E> entity = repository.findById(id);
+        if (entity.isPresent()){
+
+            E e = entity.get();
+            e.partialUpdate(updatedEntity);
+
             return (E) this.repository.save(e);
         }else{
             throw  new EntityNotFoundException();
         }
-    }
+    }        
 
     @Override
     public void delete(Long id) {

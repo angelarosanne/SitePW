@@ -18,8 +18,20 @@ import java.util.stream.Collectors;
 @Service
 public class PedidoService extends GenericService<Pedido, PedidoRepository> {
 
-    public PedidoService(PedidoRepository repository) {
+    private final ModelMapper mapper;
+
+    public PedidoService(PedidoRepository repository, ModelMapper mapper) {
         super(repository);
+        this.mapper = mapper;
     }
 
+    public List<Pedido.DtoResponse> listPedidos() {
+        return repository.findAll().stream()
+                .map(pedido -> {
+                    Pedido.DtoResponse response = Pedido.DtoResponse.convertToDto(pedido, mapper);
+                    response.generateLinks(pedido.getId());
+                    return response;
+                })
+                .collect(Collectors.toList());
+    }
 }
