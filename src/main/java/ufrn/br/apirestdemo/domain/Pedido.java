@@ -50,14 +50,12 @@ public class Pedido extends AbstractEntity {
 
     @Data
     public static class DtoRequest{
-        @NotBlank(message = "Usuário com dataPedido em branco")
         Date dataPedido;
 
-        @NotBlank(message = "Obrigatório ter uma pessoa")
         Pessoa pessoa;
 
-        @NotBlank(message = "Obrigatório ter produtos")
-         List<Long> produto_id;
+
+        List<Long> produto_id;
 
         public static Pedido convertToEntity(DtoRequest dto, ModelMapper mapper){
             return mapper.map(dto, Pedido.class);
@@ -66,6 +64,7 @@ public class Pedido extends AbstractEntity {
 
     @Data
     public static class DtoResponse extends RepresentationModel<DtoResponse> {
+        Long id;
 	    Date dataPedido;
         Pessoa pessoa;
         List<Produto> produtos;

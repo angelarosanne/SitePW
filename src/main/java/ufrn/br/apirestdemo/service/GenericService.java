@@ -4,9 +4,13 @@ import jakarta.persistence.EntityNotFoundException;
 import ufrn.br.apirestdemo.domain.AbstractEntity;
 import ufrn.br.apirestdemo.repository.IGenericRepository;
 import jakarta.persistence.Entity;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+
 
 public abstract class GenericService<E extends AbstractEntity, R extends IGenericRepository> implements IGenericService<E>{
 
@@ -15,6 +19,11 @@ public abstract class GenericService<E extends AbstractEntity, R extends IGeneri
 
     public GenericService(R repository) {
         this.repository = repository;
+    }
+
+    @Override
+    public Page<E> find(Pageable page) {
+        return (Page<E>) this.repository.findAll(page);
     }
 
     @Override

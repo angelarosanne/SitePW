@@ -58,7 +58,7 @@ public class Pessoa  extends AbstractEntity implements UserDetails{
     public static class DtoRequest{
         @NotBlank(message = "Usuário com nome em branco")
         String nome;
-        @NotBlank(message = "Usuário com endereco em branco")
+        
         Endereco endereco;
         @Min(value = 18, message = "Usuário com idade insuficiente")
         Integer idade;
@@ -79,8 +79,6 @@ public class Pessoa  extends AbstractEntity implements UserDetails{
         String nome;
         Integer idade;
         Endereco endereco;
-        String login;
-        String senha;
 
         public static DtoResponse convertToDto(Pessoa p, ModelMapper mapper){
             return mapper.map(p, DtoResponse.class);

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/pedidos")
+@RequestMapping("/pedidos/")
 public class PedidoController {
     PedidoService service;
     ModelMapper mapper;
@@ -86,9 +86,8 @@ public class PedidoController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePedido(@PathVariable Long id) {
-        service.delete(id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id){
+        this.service.delete(id);
     }
 }

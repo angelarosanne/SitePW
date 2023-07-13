@@ -5,17 +5,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import ufrn.br.apirestdemo.domain.Endereco;
 import ufrn.br.apirestdemo.domain.Pessoa;
 import ufrn.br.apirestdemo.service.EnderecoService;
 import ufrn.br.apirestdemo.service.PessoaService;
-
 import java.util.Collections;
 import java.util.List;
-
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+
+import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+
+
 
 @RestController
 @RequestMapping("/pessoas/")
@@ -32,7 +40,7 @@ public class PessoaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Pessoa.DtoResponse create(@RequestBody Pessoa.DtoRequest p){
+    public Pessoa.DtoResponse create(@RequestBody @Valid Pessoa.DtoRequest p){
 
         Pessoa pessoa = this.service.create(Pessoa.DtoRequest.convertToEntity(p, mapper));
 
@@ -42,16 +50,38 @@ public class PessoaController {
         return response;
     }
 
-    @GetMapping
-    public List<Pessoa.DtoResponse> list(){
 
-        return this.service.list().stream().map(
-                elementoAtual -> {
-                    Pessoa.DtoResponse response = Pessoa.DtoResponse.convertToDto(elementoAtual, mapper);
-                    response.generateLinks(elementoAtual.getId());
+    @GetMapping
+    public ResponseEntity<Page<Pessoa.DtoResponse>> find(Pageable page) {
+
+        //System.out.println(page.toString());
+
+        Page<Pessoa.DtoResponse> dtoResponses = service
+                .find(page)
+                .map(record -> {
+                    Pessoa.DtoResponse response = Pessoa.DtoResponse.convertToDto(record, mapper);
+                    response.generateLinks(record.getId());
                     return response;
-                }).toList();
+                });
+
+
+        return new ResponseEntity<>(dtoResponses, HttpStatus.OK);
     }
+
+
+
+
+
+    // @GetMapping
+    // public List<Pessoa.DtoResponse> list(){
+
+    //     return this.service.list().stream().map(
+    //             elementoAtual -> {
+    //                 Pessoa.DtoResponse response = Pessoa.DtoResponse.convertToDto(elementoAtual, mapper);
+    //                 response.generateLinks(elementoAtual.getId());
+    //                 return response;
+    //             }).toList();
+    // }
 
     @GetMapping("{id}")
     public Pessoa.DtoResponse getById(@PathVariable Long id){

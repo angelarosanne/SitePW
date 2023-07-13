@@ -57,8 +57,12 @@ public class SecurityConfig {
             "/actuator/*",
             "/swagger-ui/**",
             "/token",
-            "/produtos",
-            "/pessoas/"
+            "/produtos/**",
+            "/pessoas/**",
+            "/pessoas/",
+            "/produtos/",
+            "/pedidos/",
+            "/pedidos/**"
     };
 
     public SecurityConfig(RsaKeyProperties rsaKeys) {
